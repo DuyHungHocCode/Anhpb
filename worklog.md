@@ -21,3 +21,22 @@ Stage Summary:
 - File chính: src/app/layout.tsx, src/app/page.tsx, src/app/vintage.css
 - Ảnh xác minh: download/vintage-desktop-top.png, vintage-desktop-mid.png, vintage-desktop-bottom.png, vintage-mobile.png
 - Quyết định quan trọng: fallback font metric-compatible do Courier Prime gốc không hỗ trợ tiếng Việt
+
+---
+Task ID: 2
+Agent: Super Z (main agent)
+Task: Chuyển trang thành lá thư vintage cho một cô gái — dòng "Hãy tự tin vào bản thân và sự cố gắng của mình." nổi bật nhất, đoạn "đừng biến mất nhé..." ở lá thư tiếp theo, thiệp có hoa văn bo viền.
+
+Work Log:
+- Sửa layout.tsx: metadata mới "Một Lá Thư — Hãy tự tin vào bản thân và sự cố gắng của mình"
+- Rewrite vintage.css: hệ thống thiệp bo viền 3 lớp (::before đường mảnh ngoài, ::after đường mảnh trong, .pearl-ring chấm tròn giữa) + border-radius (bo viền), 4 hoa văn góc SVG lật 4 hướng, tem thư mép xước ke (4 lớp radial-gradient đục lỗ không cần mask), con dấu bưu cục SVG textPath tròn, gạch chân tay SVG dưới hero, animation card-in/soft-in (có prefers-reduced-motion), responsive 560px
+- Rewrite page.tsx: 2 thiệp — Lá thư 1 (ngày, "Gửi cậu,", HERO LINE to đậm gạch tay, câu dẫn chuyển thư) + Lá thư tiếp theo (đoạn "đừng biến mất nhé..." nguyên văn, nhấn italics "đừng biến mất nhé", chữ ký "Thương, — Tớ.", P/s.) + letterhead/footer
+- Fix: quên import "./vintage.css" trong lần rewrite đầu → trang render HTML trần; phát hiện qua document.styleSheets không có rule của vintage.css
+- Fix mobile: dòng ngày bị tem đè → thêm padding-right 84px cho .letter-date ở 560px
+- Nudge vị trí postmark (right 100px) để chữ "5 xu" trên tem dễ đọc
+- Agent Browser verify: desktop 1280 (đầu/giữa/cuối), mobile 375 — khung hoa văn, tem, dấu, hero đều chuẩn; console sạch
+
+Stage Summary:
+- Deliverable: trang lá thư vintage 2 thiệp bo viền hoa văn, giữ nguyên hệ nền giấy cổ + Courier Prime của phiên bản báo
+- File: src/app/page.tsx, src/app/vintage.css, src/app/layout.tsx
+- Ảnh xác minh: download/letter-desktop.png, letter-desktop-bottom.png, letter-mobile.png

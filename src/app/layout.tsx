@@ -23,9 +23,9 @@ const courierPrime = Courier_Prime({
 });
 
 export const metadata: Metadata = {
-  title: "Tiếng Máy Chữ — Tuần báo hoài cổ",
+  title: "Một Lá Thư — Hãy tự tin vào bản thân và sự cố gắng của mình",
   description:
-    "Trang báo phong cách retro vintage: nền giấy trắng ngà có vân nhám sần, chữ mực đen, bố cục editorial tối giản, font máy đánh chữ Courier Prime.",
+    "Lá thư vintage gõ máy chữ trên giấy trắng ngà: thiệp bo viền hoa văn, tem thư và con dấu bưu cục — gửi một người cần nghe lại rằng cậu đang cố gắng rất tốt.",
 };
 
 export default function RootLayout({
