@@ -1,0 +1,511 @@
+/* ============================================================
+   TIẾNG MÁY CHỮ — Retro vintage editorial stylesheet
+   Nền: giấy trắng ngà #f7f5f0 có vân nhám sần (paper noise)
+   Mực: xám đen #2b2b2b
+   Font: Courier Prime (máy đánh chữ) + fallback metric-compatible
+   ============================================================ */
+
+:root {
+  --paper: #f7f5f0;
+  --paper-deep: #ece8dd;
+  --ink: #2b2b2b;
+  --ink-soft: #57534a;
+  --ink-faint: #8a857a;
+  --hairline: rgba(43, 43, 43, 0.28);
+  --hairline-strong: rgba(43, 43, 43, 0.85);
+  --font-typewriter: var(--font-courier-prime), "Courier New",
+    "Liberation Mono", "Noto Sans Mono", monospace;
+}
+
+/* ---------- Nền giấy cổ + mực in ---------- */
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(1200px 700px at 12% -5%, rgba(206, 190, 158, 0.2), transparent 60%),
+    radial-gradient(1000px 600px at 90% 105%, rgba(190, 173, 140, 0.16), transparent 55%),
+    radial-gradient(900px 550px at 50% 45%, rgba(255, 255, 255, 0.4), transparent 70%),
+    var(--paper);
+  color: var(--ink);
+  font-family: var(--font-typewriter);
+  font-size: 16px;
+  line-height: 1.7;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ---------- Lớp vân nhám giấy (paper grain) ---------- */
+/* SVG feTurbulencenoise phủ toàn trang, multiply để ăn vào nền */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.55;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='0.34'/%3E%3C/svg%3E");
+  background-size: 260px 260px;
+}
+
+/* Vignette tối nhẹ ở rìa — như tờ giấy đã lâu năm */
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 41;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 120% 90% at 50% 45%,
+    transparent 62%,
+    rgba(43, 43, 43, 0.1) 100%
+  );
+}
+
+/* ---------- Khung trang ---------- */
+
+.press {
+  position: relative;
+  min-height: 100vh;
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 0 clamp(1rem, 4vw, 3.25rem);
+}
+
+.press main {
+  flex: 1;
+}
+
+/* ---------- Đường kẻ kiểu báo cũ ---------- */
+
+.rule-double {
+  border: 0;
+  height: 6px;
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+
+.rule-thin {
+  border: 0;
+  border-top: 1px solid var(--hairline);
+}
+
+/* ---------- Thanh đầu trang ---------- */
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem 1.5rem;
+  padding: 0.65rem 0;
+  margin-top: clamp(1rem, 2.5vw, 1.75rem);
+  border-top: 1px solid var(--hairline-strong);
+  border-bottom: 1px solid var(--hairline);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------- Tiêu đề tờ báo (masthead) ---------- */
+
+.masthead {
+  margin: clamp(1.5rem, 5vw, 2.75rem) 0 0.6rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 9vw, 5.75rem);
+  line-height: 1.02;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  /* Độ loang mực nhẹ như bản in cũ */
+  text-shadow: 0 0 1px rgba(43, 43, 43, 0.4);
+}
+
+.masthead-sub {
+  margin: 0 auto 1.4rem;
+  max-width: 72ch;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  line-height: 1.9;
+}
+
+/* ---------- Mục lục ngang ---------- */
+
+.sections {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem clamp(0.9rem, 3vw, 2.1rem);
+  padding: 0.85rem 0;
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.sections a {
+  color: var(--ink);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s ease-in-out;
+}
+
+.sections a:hover,
+.sections a:focus-visible {
+  border-bottom-color: var(--ink);
+}
+
+/* ---------- Bài chính (lead story) ---------- */
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: clamp(2rem, 5vw, 3.25rem) 0 0.95rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.kicker::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--hairline);
+}
+
+.headline {
+  margin: 0 0 1rem;
+  font-weight: 700;
+  font-size: clamp(1.65rem, 4.6vw, 3rem);
+  line-height: 1.16;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-shadow: 0 0 1px rgba(43, 43, 43, 0.35);
+}
+
+.deck {
+  margin: 0 0 1.15rem;
+  max-width: 64ch;
+  font-style: italic;
+  font-size: clamp(0.98rem, 1.6vw, 1.12rem);
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+.byline {
+  margin: 0 0 1.7rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* Body bài báo: 3 cột phân đôi bằng kẻ mảnh, chữ căn đều */
+
+.lead-body {
+  columns: 3;
+  column-gap: clamp(1.5rem, 3.5vw, 2.75rem);
+  column-rule: 1px solid var(--hairline);
+  font-size: 0.93rem;
+  line-height: 1.8;
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+.lead-body p {
+  margin: 0 0 1em;
+}
+
+/* Chữ hoa đầu bài — drop cap kiểu báo giấy */
+
+.lead-body > p:first-of-type::first-letter {
+  float: left;
+  font-size: 3.35em;
+  line-height: 0.78;
+  padding: 0.06em 0.14em 0 0;
+  font-weight: 700;
+}
+
+/* ---------- Dải trang trí máy chữ ---------- */
+
+.ornament {
+  margin: 2.2rem 0;
+  text-align: center;
+  font-size: 0.85rem;
+  letter-spacing: 0.85em;
+  color: var(--ink-soft);
+  user-select: none;
+}
+
+/* ---------- Trích dẫn nổi ---------- */
+
+.pullquote {
+  margin: 0 auto 2.6rem;
+  max-width: 52ch;
+  padding: 1.35rem 1.25rem;
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  text-align: center;
+}
+
+.pullquote p {
+  margin: 0;
+  font-weight: 700;
+  font-style: italic;
+  font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+  line-height: 1.5;
+}
+
+.pullquote footer {
+  margin-top: 0.7rem;
+  font-style: normal;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* ---------- Ba cột tin ngắn ---------- */
+
+.trio {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
+}
+
+.trio > article {
+  padding: 0 clamp(1rem, 2.2vw, 1.6rem);
+}
+
+.trio > article:first-child {
+  padding-left: 0;
+}
+
+.trio > article:last-child {
+  padding-right: 0;
+}
+
+.trio .hed {
+  margin: 0.55rem 0 0.7rem;
+  font-size: 1.02rem;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.trio p {
+  margin: 0 0 0.9em;
+  font-size: 0.85rem;
+  line-height: 1.75;
+  text-align: left;
+}
+
+.trio .more {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.trio .more a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--hairline);
+  transition: border-color 0.15s ease-in-out;
+}
+
+.trio .more a:hover,
+.trio .more a:focus-visible {
+  border-bottom-color: var(--ink);
+}
+
+/* Hộp bí kíp — khung viền đôi kiểu tem giấy */
+
+.tips-box {
+  border: 1px solid var(--ink);
+  background: rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 0 0 4px var(--paper),
+    0 0 0 5px var(--hairline);
+  padding: 1.15rem 1.25rem;
+}
+
+.tips-box .kicker-inline {
+  margin: 0 0 0.35rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.tips-box .hed {
+  margin: 0 0 0.75rem;
+}
+
+.tips-box ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: tip;
+}
+
+.tips-box li {
+  counter-increment: tip;
+  margin-bottom: 0.6rem;
+  padding-left: 1.7rem;
+  position: relative;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  text-align: left;
+}
+
+.tips-box li::before {
+  content: counter(tip) ".";
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+
+/* Hộp thời tiết — ghi chú nghiêng kẻ trên dưới */
+
+.weather {
+  margin-top: 1.15rem;
+  padding: 0.8rem 0.15rem;
+  border-top: 1px solid var(--hairline-strong);
+  border-bottom: 1px solid var(--hairline-strong);
+  font-size: 0.8rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--ink-soft);
+}
+
+/* ---------- Mục rao vặt ---------- */
+
+.classifieds {
+  margin-top: clamp(2.2rem, 5vw, 3.25rem);
+}
+
+.classifieds-title {
+  margin: 1.6rem 0 1.3rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  text-indent: 0.5em; /* bù letter-spacing ở ký tự cuối cho đều tâm */
+}
+
+.ads-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(1.1rem, 2.5vw, 1.9rem);
+}
+
+.ad {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  border: 1px dashed var(--hairline);
+  font-size: 0.82rem;
+  line-height: 1.7;
+  text-align: left;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.ad:hover {
+  background: rgba(43, 43, 43, 0.035);
+}
+
+.ad b {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* ---------- Cuốn (colophon) ---------- */
+
+.colophon {
+  margin-top: clamp(2.4rem, 5vw, 3.5rem);
+  padding: 1.35rem 0 2.1rem;
+  text-align: center;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  line-height: 2;
+  color: var(--ink-soft);
+}
+
+.colophon p {
+  margin: 0.35rem 0;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 980px) {
+  .lead-body {
+    columns: 2;
+  }
+}
+
+@media (max-width: 900px) {
+  .trio {
+    grid-template-columns: 1fr;
+    row-gap: 2.2rem;
+  }
+
+  .trio > article {
+    padding: 0;
+  }
+
+  .trio > article + article {
+    border-top: 1px solid var(--hairline);
+    padding-top: 1.8rem;
+  }
+
+  .ads-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .lead-body {
+    columns: 1;
+  }
+
+  .topbar {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .ads-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- In trên giấy thật thì bỏ lớp nhiễu ---------- */
+
+@media print {
+  .grain,
+  .vignette {
+    display: none;
+  }
+
+  body {
+    background: #ffffff;
+  }
+}
