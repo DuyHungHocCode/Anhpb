@@ -141,7 +141,7 @@ export default function Home() {
       <div className="grain" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />
       <div className="falling-petals" aria-hidden="true">
-        {Array.from({ length: 7 }, (_, index) => (
+        {Array.from({ length: 3 }, (_, index) => (
           <span className="falling-petal" key={index} />
         ))}
       </div>
@@ -209,7 +209,7 @@ export default function Home() {
           <div className="signoff">
             <Flourish width={140} />
             <p style={{ margin: "0.9rem 0 0" }}>
-              <span className="sign-name">— Tớ.</span>
+              <span className="sign-name">— HưngPD.</span>
             </p>
           </div>
 
