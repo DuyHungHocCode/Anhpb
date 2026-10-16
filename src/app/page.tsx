@@ -159,10 +159,6 @@ export default function Home() {
         </label>
         <span className="envelope-hint">Chạm để mở thư</span>
       </div>
-      <label className="close-letter" htmlFor="letter-open">
-        Khép thư
-      </label>
-
       <div className="letter-content">
         <p className="letterhead">Một lá thư gửi Phương Anh</p>
 
