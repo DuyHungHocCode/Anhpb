@@ -40,3 +40,15 @@ Stage Summary:
 - Deliverable: trang lá thư vintage 2 thiệp bo viền hoa văn, giữ nguyên hệ nền giấy cổ + Courier Prime của phiên bản báo
 - File: src/app/page.tsx, src/app/vintage.css, src/app/layout.tsx
 - Ảnh xác minh: download/letter-desktop.png, letter-desktop-bottom.png, letter-mobile.png
+
+---
+Task ID: 3
+Agent: main
+Task: Bỏ chữ "Thương," ở phần ký tên của lá thư
+
+Work Log:
+- Edit src/app/page.tsx: xóa "Thương," và <br /> trong .signoff, chỉ giữ lại "— Tớ."
+- Verify: curl trang chủ → không còn "Thương", chữ ký "— Tớ." hiển thị bình thường, server 200 OK
+
+Stage Summary:
+- Phần ký tên giờ chỉ còn hoa văn flourish + "— Tớ."

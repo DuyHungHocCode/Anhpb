@@ -190,8 +190,6 @@ export default function Home() {
           <div className="signoff">
             <Flourish width={140} />
             <p style={{ margin: "0.9rem 0 0" }}>
-              Thương,
-              <br />
               <span className="sign-name">— Tớ.</span>
             </p>
           </div>
