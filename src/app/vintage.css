@@ -14,7 +14,6 @@
   --ink-faint: #8a857a;
   --hairline: rgba(43, 43, 43, 0.28);
   --hairline-strong: rgba(43, 43, 43, 0.8);
-  --paper-age: 0%;
   --font-typewriter: var(--font-courier-prime), "Courier New",
     "Liberation Mono", "Noto Sans Mono", monospace;
 }
@@ -83,84 +82,46 @@ body {
   flex: 1;
 }
 
-/* ---------- Bộ đếm thời gian và xem thử tuổi giấy ---------- */
+/* ---------- Hoa trang trí + cánh hoa rơi ---------- */
 
-.timekeeper {
-  position: relative;
-  z-index: 42;
-  max-width: 420px;
-  margin: 1.2rem auto 0;
-  padding: 0.85rem 1rem 0.7rem;
-  border: 1px solid var(--hairline);
-  border-radius: 3px;
-  background: color-mix(in srgb, var(--card) 88%, transparent);
-  color: var(--ink-soft);
-  font-size: 0.75rem;
-  line-height: 1.5;
+.flower {
+  position: absolute;
+  width: 36px;
+  color: rgba(150, 97, 108, 0.58);
+  pointer-events: none;
 }
 
-.timekeeper-reading {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: baseline;
-  gap: 0.15rem 0.8rem;
+.flower-one { top: 11px; left: 55px; transform: rotate(-14deg); }
+.flower-two { right: 48px; bottom: 12px; transform: rotate(12deg); }
+
+.falling-petals {
+  position: fixed;
+  z-index: 39;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
-.timekeeper-label {
-  letter-spacing: 0.04em;
+.falling-petal {
+  position: absolute;
+  top: -1.5rem;
+  width: 0.65rem;
+  height: 0.95rem;
+  border-radius: 80% 0 80% 0;
+  background: rgba(184, 111, 126, 0.55);
+  animation: petal-fall 11s linear infinite;
 }
 
-.timekeeper-reading strong {
-  color: var(--ink);
-  font-size: 0.95rem;
-  font-weight: 700;
-}
+.falling-petal:nth-child(1) { left: 5%; animation-delay: -8s; }
+.falling-petal:nth-child(2) { left: 18%; animation-delay: -3s; animation-duration: 13s; }
+.falling-petal:nth-child(3) { left: 35%; animation-delay: -11s; animation-duration: 10s; }
+.falling-petal:nth-child(4) { left: 58%; animation-delay: -5s; animation-duration: 14s; }
+.falling-petal:nth-child(5) { left: 71%; animation-delay: -9s; animation-duration: 12s; }
+.falling-petal:nth-child(6) { left: 85%; animation-delay: -1s; animation-duration: 15s; }
+.falling-petal:nth-child(7) { left: 94%; animation-delay: -6s; animation-duration: 10s; }
 
-.timekeeper-date {
-  grid-column: 1 / -1;
-  color: var(--ink-faint);
-  font-size: 0.68rem;
-}
-
-.timekeeper-slider-label {
-  display: block;
-  margin-top: 0.65rem;
-  color: var(--ink);
-}
-
-.timekeeper-slider {
-  display: block;
-  width: 100%;
-  height: 1rem;
-  margin: 0.35rem 0 0;
-  accent-color: var(--ink-soft);
-  cursor: ew-resize;
-}
-
-.timekeeper-slider:focus-visible,
-.timekeeper-reset:focus-visible {
-  outline: 2px solid var(--ink-soft);
-  outline-offset: 3px;
-}
-
-.timekeeper-scale {
-  display: flex;
-  justify-content: space-between;
-  color: var(--ink-faint);
-  font-size: 0.64rem;
-}
-
-.timekeeper-reset {
-  display: block;
-  margin: 0.45rem 0 0 auto;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--ink-soft);
-  font: inherit;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  cursor: pointer;
+@keyframes petal-fall {
+  to { transform: translate3d(7vw, 112vh, 0) rotate(380deg); }
 }
 
 /* ---------- Letterhead trên bàn giấy ---------- */
@@ -179,17 +140,12 @@ body {
 
 .letter-card {
   --tilt: 0deg;
-  --letter-paper-color: color-mix(
-    in srgb,
-    var(--card) calc(100% - var(--paper-age)),
-    #a9804f var(--paper-age)
-  );
   position: relative;
   margin: 0 auto;
   width: min(100%, 720px);
   padding: clamp(2.6rem, 7vw, 3.9rem) clamp(1.9rem, 6vw, 3.6rem)
     clamp(2.2rem, 6vw, 3.2rem);
-  background-color: var(--letter-paper-color);
+  background-color: var(--card);
   background-image:
     radial-gradient(ellipse at 14% 12%, rgba(255, 255, 255, 0.2), transparent 52%),
     radial-gradient(ellipse at 82% 84%, rgba(126, 87, 48, 0.055), transparent 58%),
@@ -284,7 +240,8 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .letterhead,
   .letter-foot,
-  .letter-card {
+  .letter-card,
+  .falling-petal {
     animation: none;
   }
 }
@@ -304,13 +261,13 @@ body {
   color: var(--ink);
   /* Nền tem + 4 dải lỗ tròn màu giấy thiệp đục vào mép */
   background:
-    radial-gradient(circle var(--r) at var(--r) var(--r), var(--letter-paper-color) 97%, transparent 100%)
+    radial-gradient(circle var(--r) at var(--r) var(--r), var(--card) 97%, transparent 100%)
       calc(var(--r) * -1) calc(var(--r) * -1) / var(--step) var(--step) repeat-x,
-    radial-gradient(circle var(--r) at var(--r) var(--r), var(--letter-paper-color) 97%, transparent 100%)
+    radial-gradient(circle var(--r) at var(--r) var(--r), var(--card) 97%, transparent 100%)
       calc(var(--r) * -1) calc(100% - var(--r)) / var(--step) var(--step) repeat-x,
-    radial-gradient(circle var(--r) at var(--r) var(--r), var(--letter-paper-color) 97%, transparent 100%)
+    radial-gradient(circle var(--r) at var(--r) var(--r), var(--card) 97%, transparent 100%)
       calc(var(--r) * -1) calc(var(--r) * -1) / var(--step) var(--step) repeat-y,
-    radial-gradient(circle var(--r) at var(--r) var(--r), var(--letter-paper-color) 97%, transparent 100%)
+    radial-gradient(circle var(--r) at var(--r) var(--r), var(--card) 97%, transparent 100%)
       calc(100% - var(--r)) calc(var(--r) * -1) / var(--step) var(--step) repeat-y,
     linear-gradient(var(--stamp-bg), var(--stamp-bg));
   box-shadow: 1px 2px 5px rgba(43, 43, 43, 0.16);
@@ -518,7 +475,8 @@ body {
 
 @media print {
   .grain,
-  .vignette {
+  .vignette,
+  .falling-petals {
     display: none;
   }
 

@@ -1,5 +1,4 @@
 import "./vintage.css";
-import { LetterAgingControl } from "@/components/letter-aging-control";
 
 /* Hoa văn trang trí — tất cả vẽ bằng SVG/CSS, không dùng ảnh */
 
@@ -70,6 +69,21 @@ function HeroUnderline() {
   );
 }
 
+function Flower({ className }: { className: string }) {
+  return (
+    <svg className={className} viewBox="0 0 36 36" aria-hidden="true">
+      <g fill="none" stroke="currentColor" strokeWidth="1.2">
+        <ellipse cx="18" cy="9" rx="4" ry="7" />
+        <ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(72 18 18)" />
+        <ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(144 18 18)" />
+        <ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(216 18 18)" />
+        <ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(288 18 18)" />
+        <circle cx="18" cy="18" r="2.2" />
+      </g>
+    </svg>
+  );
+}
+
 function Postmark() {
   return (
     <svg className="postmark" viewBox="0 0 96 96" aria-hidden="true">
@@ -126,9 +140,13 @@ export default function Home() {
       {/* Lớp vân nhám giấy + vignette phủ toàn trang */}
       <div className="grain" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />
+      <div className="falling-petals" aria-hidden="true">
+        {Array.from({ length: 7 }, (_, index) => (
+          <span className="falling-petal" key={index} />
+        ))}
+      </div>
 
-      <LetterAgingControl />
-      <p className="letterhead">Một lá thư gửi cậu</p>
+      <p className="letterhead">Một lá thư gửi Phương Anh</p>
 
       <main>
         {/* ================= LÁ THỨ NHẤT ================= */}
@@ -138,6 +156,7 @@ export default function Home() {
           <Corner pos="tr" />
           <Corner pos="bl" />
           <Corner pos="br" />
+          <Flower className="flower flower-one" />
 
           {/* Tem thư + con dấu bưu cục */}
           <div className="stamp" aria-hidden="true">
@@ -149,19 +168,19 @@ export default function Home() {
 
           <p className="letter-date">Chiều thứ Sáu · 16 tháng Mười 2026</p>
 
-          <p className="salutation">Gửi cậu,</p>
+          <p className="salutation">Gửi Phương Anh,</p>
 
           {/* Dòng chữ quan trọng và bắt mắt nhất của cả trang */}
           <h1 className="hero-line">
-            Hãy tự tin vào bản thân
+            Chúc Phương Anh
             <br />
-            và sự cố gắng của mình.
+            đã hoàn thành kỳ thi.
           </h1>
           <HeroUnderline />
 
           <p className="bridge-note">
-            Còn vài điều tớ muốn nói với cậu, dài quá nên tớ viết tiếp thành
-            lá thư thứ hai — cho chắc, sợ gõ một lá thì dòng chữ bị hụt.
+            Tớ gửi cậu bó hoa này để chúc mừng — còn vài lời nhỏ, tớ viết ở
+            lá thư tiếp theo nhé.
           </p>
         </article>
 
@@ -172,20 +191,19 @@ export default function Home() {
           <Corner pos="tr" />
           <Corner pos="bl" />
           <Corner pos="br" />
+          <Flower className="flower flower-two" />
 
-          <h2 className="card-kicker">Lá thư tiếp theo</h2>
+          <h2 className="card-kicker">Một lời nhắn nhỏ</h2>
 
           <div className="letter-body">
             <p>
-              Dù như nào thì cũng <em>đừng biến mất nhé</em>. Tớ tin cậu nói
-              thế là thật, vì tớ cũng thế — chỉ muốn biến mất một khoảng để
-              tập trung lại vào bản thân. Nhưng tớ mong cậu không cần phải làm
-              thế.
+              Nếu kết quả không như cậu mong thì cũng đừng tự trách mình quá
+              nhé.
             </p>
             <p>
-              Nếu có không như ý thì mình vẫn làm lại được, và tớ sẽ ủng hộ
-              cậu. Chậm một chút cũng chẳng sao, miễn là cậu vẫn còn ở đây, để
-              tớ còn có chỗ mà gửi những dòng chữ này.
+              Tớ hiểu đôi khi cậu sẽ muốn yên lặng một chút để sắp xếp lại mọi
+              thứ. Nhưng nếu lúc đó cậu cần một người để nói chuyện, hoặc chỉ
+              ngồi cùng không cần nói gì, tớ vẫn ở đây.
             </p>
           </div>
 
@@ -197,15 +215,13 @@ export default function Home() {
           </div>
 
           <p className="postscript">
-            P/s. Lá thư này gõ trên giấy thật, nên nếu cậu giữ được, nó sẽ cũ
-            dần cùng cậu — không như tin nhắn, đọc xong là trôi mất.
+            P/s. Hy vọng cậu thích hoa.
           </p>
         </article>
       </main>
 
       <footer className="letter-foot">
-        gõ bằng máy chữ · không có nút xóa · gửi không cần địa chỉ — tớ biết
-        cậu sẽ đọc
+        gõ bằng máy chữ · gửi kèm một bó hoa · chúc cậu một ngày thật vui
       </footer>
     </div>
   );
