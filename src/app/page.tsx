@@ -1,4 +1,5 @@
 import "./vintage.css";
+import { LetterAgingControl } from "@/components/letter-aging-control";
 
 /* Hoa văn trang trí — tất cả vẽ bằng SVG/CSS, không dùng ảnh */
 
@@ -126,6 +127,7 @@ export default function Home() {
       <div className="grain" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />
 
+      <LetterAgingControl />
       <p className="letterhead">Một lá thư gửi cậu</p>
 
       <main>
