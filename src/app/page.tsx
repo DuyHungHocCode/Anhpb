@@ -197,8 +197,7 @@ export default function Home() {
 
           <div className="letter-body">
             <p>
-              Nếu kết quả không như cậu mong thì cũng đừng tự trách mình quá
-              nhé.
+              Nếu kết quả không như cậu mong thì cũng đừng nản lòng nhé.
             </p>
             <p>
               Tớ hiểu đôi khi cậu sẽ muốn yên lặng một chút để sắp xếp lại mọi
