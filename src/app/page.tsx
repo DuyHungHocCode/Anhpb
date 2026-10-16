@@ -146,9 +146,27 @@ export default function Home() {
         ))}
       </div>
 
-      <p className="letterhead">Một lá thư gửi Phương Anh</p>
+      <input
+        className="letter-toggle"
+        id="letter-open"
+        type="checkbox"
+        aria-label="Mở hoặc khép lá thư"
+      />
+      <div className="envelope-intro" aria-hidden="true">
+        <label className="envelope" htmlFor="letter-open">
+          <span className="envelope-letter">Gửi Phương Anh</span>
+          <span className="envelope-seal">PA</span>
+        </label>
+        <span className="envelope-hint">Chạm để mở thư</span>
+      </div>
+      <label className="close-letter" htmlFor="letter-open">
+        Khép thư
+      </label>
 
-      <main>
+      <div className="letter-content">
+        <p className="letterhead">Một lá thư gửi Phương Anh</p>
+
+        <main>
         {/* ================= LÁ THỨ NHẤT ================= */}
         <article className="letter-card card-one" aria-label="Lá thư thứ nhất">
           <div className="pearl-ring" aria-hidden="true" />
@@ -217,11 +235,12 @@ export default function Home() {
             P/s. Hy vọng cậu thích hoa.
           </p>
         </article>
-      </main>
+        </main>
 
-      <footer className="letter-foot">
-        gõ bằng máy chữ · gửi kèm một bó hoa · chúc cậu một ngày thật vui
-      </footer>
+        <footer className="letter-foot">
+          gõ bằng máy chữ · gửi kèm một bó hoa · chúc cậu một ngày thật vui
+        </footer>
+      </div>
     </div>
   );
 }
