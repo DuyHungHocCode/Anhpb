@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Một lá thư gửi Phương Anh</title>
+    <style>
+      :root {
+        --paper: #f7f3eb;
+        --card: #fffdf8;
+        --ink: #302b27;
+        --soft: #70645a;
+        --rose: #a76168;
+      }
+      * { box-sizing: border-box; }
+      body {
+        min-height: 100vh;
+        margin: 0;
+        overflow-x: hidden;
+        color: var(--ink);
+        font: 16px/1.8 "Courier New", Courier, monospace;
+        background:
+          radial-gradient(ellipse at 12% 0%, #eadbc3aa, transparent 48%),
+          radial-gradient(ellipse at 90% 100%, #e8d6c5aa, transparent 45%),
+          var(--paper);
+      }
+      .toggle {
+        position: fixed;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+      }
+      .opening {
+        position: fixed;
+        z-index: 5;
+        inset: 0;
+        display: grid;
+        place-content: center;
+        gap: 1.2rem;
+        background: radial-gradient(circle at 50% 42%, #fffdfaaa, transparent 25rem), var(--paper);
+        transition: opacity .35s ease, visibility 0s linear .35s;
+      }
+      .envelope {
+        position: relative;
+        display: block;
+        width: min(80vw, 340px);
+        aspect-ratio: 1.42;
+        cursor: pointer;
+        filter: drop-shadow(0 18px 18px #5c403030);
+        background: linear-gradient(145deg, #f5ead8, #e1c5a2);
+        perspective: 700px;
+      }
+      .envelope::before, .envelope::after { content: ""; position: absolute; inset: 0; }
+      .envelope::before {
+        z-index: 3;
+        clip-path: polygon(0 0, 100% 0, 50% 62%);
+        transform-origin: top;
+        background: linear-gradient(160deg, #fff4e3, #dfc19d);
+        transition: transform .7s cubic-bezier(.2,.7,.25,1);
+      }
+      .envelope::after {
+        z-index: 2;
+        clip-path: polygon(0 0, 50% 57%, 100% 0, 100% 100%, 0 100%);
+        background:
+          linear-gradient(35deg, transparent 49%, #76573720 50%, transparent 51%),
+          linear-gradient(-35deg, transparent 49%, #76573720 50%, transparent 51%),
+          #ead9bd;
+      }
+      .address {
+        position: absolute;
+        z-index: 1;
+        top: 12%; left: 11%; width: 78%;
+        padding: 1.1rem .5rem;
+        border: 1px solid #302b2738;
+        background: var(--card);
+        color: var(--soft);
+        font-size: .75rem;
+        letter-spacing: .12em;
+        text-align: center;
+        text-transform: uppercase;
+        transition: transform .65s cubic-bezier(.2,.7,.25,1);
+      }
+      .seal {
+        position: absolute;
+        z-index: 4;
+        top: 51%; left: 50%;
+        display: grid;
+        width: 2.8rem;
+        aspect-ratio: 1;
+        place-items: center;
+        border: 1px solid #68373777;
+        border-radius: 50%;
+        background: var(--rose);
+        box-shadow: inset 0 0 0 4px #ffffff22, 0 2px 4px #37232344;
+        color: #f9e6d3;
+        font-size: .72rem;
+        font-weight: bold;
+        transform: translate(-50%, -50%);
+        transition: opacity .25s ease, transform .25s ease;
+      }
+      .hint { color: var(--soft); font-size: .72rem; letter-spacing: .16em; text-align: center; text-transform: uppercase; }
+      #open:checked ~ .opening { visibility: hidden; opacity: 0; pointer-events: none; transition-delay: .65s, 1s; }
+      #open:checked ~ .opening .envelope::before { transform: rotateX(180deg); }
+      #open:checked ~ .opening .address { transform: translateY(-30%); }
+      #open:checked ~ .opening .seal { opacity: 0; transform: translate(-50%, -50%) scale(.5); }
+      .page { width: min(100% - 2rem, 720px); margin: 0 auto; padding: 2rem 0; opacity: 0; }
+      #open:checked ~ .page { animation: appear .7s ease .45s both; }
+      .head, .foot { color: var(--soft); font-size: .7rem; letter-spacing: .22em; text-align: center; text-transform: uppercase; }
+      .head { margin: .5rem 0 1.5rem; }
+      .foot { margin-top: 1.8rem; }
+      .letter {
+        position: relative;
+        padding: clamp(2.4rem, 8vw, 4rem) clamp(1.5rem, 7vw, 3.5rem);
+        overflow: hidden;
+        border: 1px solid #302b2744;
+        border-radius: 14px;
+        background:
+          linear-gradient(110deg, transparent 0 32%, #735a3e08 32.3%, transparent 33%),
+          radial-gradient(ellipse at 88% 85%, #9b6b3a12, transparent 45%),
+          var(--card);
+        box-shadow: 0 14px 34px -18px #302b2788, inset 0 0 0 8px #fffdf866;
+      }
+      .letter + .letter { margin-top: 1.2rem; transform: rotate(.3deg); }
+      .letter::before { content: ""; position: absolute; inset: 11px; border: 1px solid #302b2766; border-radius: 8px; pointer-events: none; }
+      .flower { position: absolute; right: 22px; bottom: 17px; width: 38px; color: #96616caa; }
+      .flower.top { top: 15px; left: 24px; right: auto; bottom: auto; transform: rotate(-16deg); }
+      .date { margin: 0 0 1.4rem; color: #96887c; font-size: .73rem; letter-spacing: .12em; text-transform: uppercase; }
+      .hello { margin: 0; font-style: italic; }
+      h1 { margin: 1rem 0 .2rem; font-size: clamp(1.55rem, 7vw, 2.3rem); line-height: 1.4; text-align: center; }
+      .underline { width: min(330px, 80%); margin: .3rem auto 0; border-top: 2px solid var(--ink); transform: rotate(-.7deg); }
+      .bridge { max-width: 45ch; margin: 1.6rem auto 0; color: var(--soft); font-size: .9rem; font-style: italic; text-align: center; }
+      .kicker { display: flex; align-items: center; gap: .7rem; justify-content: center; margin: 0 0 1.1rem; color: var(--soft); font-size: .68rem; letter-spacing: .25em; text-transform: uppercase; }
+      .kicker::before, .kicker::after { content: ""; width: 55px; border-top: 1px solid #302b2744; }
+      .body { max-width: 55ch; margin: auto; }
+      .body p { margin: 0 0 1rem; }
+      .sign { margin-top: 1.6rem; font-weight: bold; text-align: right; }
+      .ps { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid #302b2744; color: var(--soft); font-size: .82rem; font-style: italic; }
+      .petal { position: fixed; z-index: 2; top: -1rem; width: .55rem; height: .9rem; border-radius: 80% 0 80% 0; background: #b86f7e88; animation: fall 13s linear infinite; pointer-events: none; }
+      .petal:nth-of-type(1) { left: 8%; animation-delay: -8s; }
+      .petal:nth-of-type(2) { left: 52%; animation-delay: -3s; animation-duration: 15s; }
+      .petal:nth-of-type(3) { left: 88%; animation-delay: -11s; animation-duration: 14s; }
+      @keyframes fall { to { transform: translate(7vw, 112vh) rotate(380deg); } }
+      @keyframes appear { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+      @media (prefers-reduced-motion: reduce) { .petal { animation: none; } #open:checked ~ .page { animation: none; opacity: 1; } }
+      @media print { .opening, .petal { display: none; } .page { opacity: 1; } }
+    </style>
+  </head>
+  <body>
+    <input class="toggle" id="open" name="letter" type="radio" aria-label="Mở lá thư" />
+    <div class="opening">
+      <label class="envelope" for="open">
+        <span class="address">Gửi Phương Anh</span>
+        <span class="seal">PA</span>
+      </label>
+      <span class="hint">Chạm để mở thư</span>
+    </div>
+    <i class="petal"></i><i class="petal"></i><i class="petal"></i>
+    <main class="page">
+      <p class="head">Một lá thư gửi Phương Anh</p>
+      <article class="letter">
+        <svg class="flower top" viewBox="0 0 36 36" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><ellipse cx="18" cy="9" rx="4" ry="7"/><ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(72 18 18)"/><ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(144 18 18)"/><ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(216 18 18)"/><ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(288 18 18)"/><circle cx="18" cy="18" r="2.2"/></g></svg>
+        <p class="date">Chiều thứ Sáu · 16 tháng Mười 2026</p>
+        <p class="hello">Gửi Phương Anh,</p>
+        <h1>Chúc Phương Anh<br />đã hoàn thành kỳ thi.</h1>
+        <div class="underline"></div>
+        <p class="bridge">Tớ gửi cậu bó hoa này để chúc mừng — còn vài lời nhỏ, tớ viết ở lá thư tiếp theo nhé.</p>
+      </article>
+      <article class="letter">
+        <svg class="flower" viewBox="0 0 36 36" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><ellipse cx="18" cy="9" rx="4" ry="7"/><ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(72 18 18)"/><ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(144 18 18)"/><ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(216 18 18)"/><ellipse cx="18" cy="9" rx="4" ry="7" transform="rotate(288 18 18)"/><circle cx="18" cy="18" r="2.2"/></g></svg>
+        <h2 class="kicker">Một lời nhắn nhỏ</h2>
+        <div class="body">
+          <p>Nếu kết quả không như cậu mong thì cũng đừng nản lòng nhé.</p>
+          <p>Tớ hiểu đôi khi cậu sẽ muốn yên lặng một chút để sắp xếp lại mọi thứ. Nhưng nếu lúc đó cậu cần một người để nói chuyện, hoặc chỉ ngồi cùng không cần nói gì, tớ vẫn ở đây.</p>
+          <p class="sign">— HưngPD.</p>
+          <p class="ps">P/s. Hy vọng cậu thích hoa.</p>
+        </div>
+      </article>
+      <p class="foot">gửi kèm một bó hoa · chúc cậu một ngày thật vui</p>
+    </main>
+  </body>
+</html>
