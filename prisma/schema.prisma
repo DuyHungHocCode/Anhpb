@@ -9,8 +9,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -29,28 +29,4 @@ model Post {
   authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-}
-
-model Memory {
-  id         String        @id @default(cuid())
-  title      String
-  note       String
-  occurredAt DateTime
-  images     MemoryImage[]
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
-
-  @@index([occurredAt])
-}
-
-model MemoryImage {
-  id        String   @id @default(cuid())
-  memoryId  String
-  url       String
-  pathname  String   @unique
-  alt       String
-  createdAt DateTime @default(now())
-  memory    Memory   @relation(fields: [memoryId], references: [id], onDelete: Cascade)
-
-  @@index([memoryId])
 }
