@@ -1,6 +1,4 @@
 import "./vintage.css";
-import AppTabs from "@/components/AppTabs";
-import { listMemories } from "@/lib/memories";
 
 /* Hoa văn trang trí — tất cả vẽ bằng SVG/CSS, không dùng ảnh */
 
@@ -136,10 +134,7 @@ function Postmark() {
   );
 }
 
-export const dynamic = "force-dynamic";
-
-export default async function Home() {
-  const memories = await listMemories();
+export default function Home() {
   return (
     <div className="letter-stage">
       {/* Lớp vân nhám giấy + vignette phủ toàn trang */}
@@ -164,7 +159,7 @@ export default async function Home() {
         </label>
         <span className="envelope-hint">Chạm để mở thư</span>
       </div>
-      <AppTabs memories={memories}>
+      <div className="letter-content">
         <p className="letterhead">Một lá thư gửi Phương Anh</p>
 
         <main>
@@ -241,7 +236,7 @@ export default async function Home() {
         <footer className="letter-foot">
           gõ bằng máy chữ · gửi kèm một bó hoa · chúc cậu một ngày thật vui
         </footer>
-      </AppTabs>
+      </div>
     </div>
   );
 }
