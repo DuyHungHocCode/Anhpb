@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import "./vintage.css";
 
 /* Hoa văn trang trí — tất cả vẽ bằng SVG/CSS, không dùng ảnh */
@@ -135,8 +138,18 @@ function Postmark() {
 }
 
 export default function Home() {
+  const [openEnvelope, setOpenEnvelope] = useState<"one" | "two" | null>(null);
+  const backButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (openEnvelope) backButtonRef.current?.focus();
+  }, [openEnvelope]);
+
   return (
-    <div className="letter-stage">
+    <div
+      className={`letter-stage ${openEnvelope ? "is-open" : ""}`}
+      data-open={openEnvelope ?? "none"}
+    >
       {/* Lớp vân nhám giấy + vignette phủ toàn trang */}
       <div className="grain" aria-hidden="true" />
       <div className="vignette" aria-hidden="true" />
@@ -146,17 +159,42 @@ export default function Home() {
         ))}
       </div>
 
-      <input
-        className="letter-toggle"
-        id="letter-open"
-        type="checkbox"
-        aria-label="Mở hoặc khép lá thư"
-      />
-      <div className="envelope-intro" aria-hidden="true">
-        <label className="envelope" htmlFor="letter-open">
-          <span className="envelope-letter">Gửi Phương Anh</span>
-          <span className="envelope-seal">PA</span>
-        </label>
+      {openEnvelope && (
+        <button
+          type="button"
+          className="back-to-envelopes"
+          ref={backButtonRef}
+          onClick={() => setOpenEnvelope(null)}
+          aria-label="Quay lại màn hình phong bì"
+        >
+          <span aria-hidden="true">←</span>
+        </button>
+      )}
+      <div
+        className="envelope-intro"
+        aria-hidden={openEnvelope !== null}
+        inert={openEnvelope !== null}
+      >
+        <div className="envelope-grid">
+          <button
+            type="button"
+            className={`envelope ${openEnvelope === "one" ? "is-open" : ""}`}
+            onClick={() => setOpenEnvelope("one")}
+            aria-label="Mở thư gửi Phương Anh"
+          >
+            <span className="envelope-letter">Gửi Phương Anh</span>
+            <span className="envelope-seal">PA</span>
+          </button>
+          <button
+            type="button"
+            className={`envelope ${openEnvelope === "two" ? "is-open" : ""}`}
+            onClick={() => setOpenEnvelope("two")}
+            aria-label="Mở thư cảm ơn"
+          >
+            <span className="envelope-letter">Một lời cảm ơn</span>
+            <span className="envelope-seal">TD</span>
+          </button>
+        </div>
         <span className="envelope-hint">Chạm để mở thư</span>
       </div>
       <div className="letter-content">
@@ -164,7 +202,11 @@ export default function Home() {
 
         <main>
         {/* ================= LÁ THỨ NHẤT ================= */}
-        <article className="letter-card card-one" aria-label="Lá thư thứ nhất">
+        <article
+          className="letter-card card-one"
+          aria-label="Lá thư thứ nhất"
+          aria-hidden={openEnvelope !== "one"}
+        >
           <div className="pearl-ring" aria-hidden="true" />
           <Corner pos="tl" />
           <Corner pos="tr" />
@@ -199,7 +241,11 @@ export default function Home() {
         </article>
 
         {/* ================= LÁ THƯ TIẾP THEO ================= */}
-        <article className="letter-card card-two" aria-label="Lá thư tiếp theo">
+        <article
+          className="letter-card card-two"
+          aria-label="Lá thư tiếp theo"
+          aria-hidden={openEnvelope !== "one"}
+        >
           <div className="pearl-ring" aria-hidden="true" />
           <Corner pos="tl" />
           <Corner pos="tr" />
@@ -229,6 +275,46 @@ export default function Home() {
 
           <p className="postscript">
             P/s. Hy vọng cậu thích hoa.
+          </p>
+        </article>
+
+        <article
+          className="letter-card card-thank-you"
+          aria-label="Lá thư cảm ơn"
+          aria-hidden={openEnvelope !== "two"}
+        >
+          <div className="pearl-ring" aria-hidden="true" />
+          <Corner pos="tl" />
+          <Corner pos="tr" />
+          <Corner pos="bl" />
+          <Corner pos="br" />
+          <Flower className="flower flower-two" />
+
+          <h2 className="card-kicker">Một lời cảm ơn</h2>
+
+          <div className="letter-body">
+            <p>
+              Phương Anh à, cảm ơn cậu vì khoảng thời gian qua. Nhờ có cậu, tớ
+              đã có những ngày thật vui và những kỷ niệm mà tớ sẽ luôn trân
+              trọng.
+            </p>
+            <p>
+              Dù bây giờ chúng ta không còn nói chuyện nữa, thỉnh thoảng tớ vẫn
+              nhớ Phương Anh — nhớ những câu chuyện, những niềm vui rất đỗi
+              bình thường mà khi ấy tớ đã may mắn có được. Mong cậu luôn bình
+              an và vui vẻ trên con đường của mình.
+            </p>
+          </div>
+
+          <div className="signoff">
+            <Flourish width={140} />
+            <p style={{ margin: "0.9rem 0 0" }}>
+              <span className="sign-name">— HưngPD.</span>
+            </p>
+          </div>
+
+          <p className="postscript">
+            P/s. miss you.
           </p>
         </article>
         </main>

@@ -84,13 +84,6 @@ body {
 
 /* ---------- Phong bì mở thư ---------- */
 
-.letter-toggle {
-  position: fixed;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-}
-
 .envelope-intro {
   position: fixed;
   z-index: 50;
@@ -107,9 +100,14 @@ body {
 .envelope {
   position: relative;
   display: block;
-  width: min(78vw, 340px);
+  border: 0;
+  padding: 0;
+  width: min(39vw, 340px);
   aspect-ratio: 1.42;
   cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: initial;
   filter: drop-shadow(0 18px 20px rgba(70, 55, 42, 0.2));
   background: linear-gradient(145deg, #f3e8d4, #e6d2b3);
   perspective: 700px;
@@ -186,30 +184,57 @@ body {
   animation: soft-in 1s ease-out both;
 }
 
-.letter-toggle:focus-visible ~ .envelope-intro .envelope {
+.envelope-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+}
+
+.envelope:focus-visible {
   outline: 2px solid var(--ink-soft);
   outline-offset: 5px;
 }
 
-#letter-open:checked ~ .envelope-intro {
+.letter-stage.is-open .envelope-intro {
   visibility: hidden;
   opacity: 0;
   pointer-events: none;
   transition-delay: 0.65s, 1s;
 }
 
-#letter-open:checked ~ .envelope-intro .envelope::before {
+.envelope.is-open::before {
   transform: rotateX(180deg);
 }
 
-#letter-open:checked ~ .envelope-intro .envelope-letter {
+.envelope.is-open .envelope-letter {
   transform: translateY(-30%);
 }
 
-#letter-open:checked ~ .envelope-intro .envelope-seal {
+.envelope.is-open .envelope-seal {
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.5);
 }
+
+.back-to-envelopes {
+  position: fixed;
+  z-index: 60;
+  top: clamp(1rem, 3vw, 1.8rem);
+  left: clamp(1rem, 3vw, 1.8rem);
+  display: grid;
+  width: 2.7rem;
+  height: 2.7rem;
+  place-items: center;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  background: rgba(252, 251, 247, 0.8);
+  color: var(--ink);
+  cursor: pointer;
+  font: 1.35rem/1 var(--font-typewriter);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.back-to-envelopes:hover { background: var(--card); transform: translateX(-2px); }
+.back-to-envelopes:focus-visible { outline: 2px solid var(--ink-soft); outline-offset: 4px; }
 
 /* ---------- Hoa trang trí + cánh hoa rơi ---------- */
 
@@ -332,6 +357,7 @@ body {
 
 .card-one { --tilt: -0.35deg; }
 .card-two { --tilt: 0.4deg; margin-top: clamp(1.1rem, 3vw, 1.6rem); }
+.card-thank-you { --tilt: 0.4deg; }
 
 /* ---------- Hiệu ứng hiện lên khi mở trang ---------- */
 
@@ -366,19 +392,23 @@ body {
 }
 
 .letter-card {
+  display: none;
   opacity: 0;
 }
 
-#letter-open:checked ~ .letter-content .letterhead,
-#letter-open:checked ~ .letter-content .letter-foot {
+.letter-stage.is-open .letter-content .letterhead,
+.letter-stage.is-open .letter-content .letter-foot {
   animation: soft-in 0.9s ease-out both;
 }
 
-#letter-open:checked ~ .letter-content .letter-card {
+.letter-stage[data-open="one"] .letter-content .card-one,
+.letter-stage[data-open="one"] .letter-content .card-two,
+.letter-stage[data-open="two"] .letter-content .card-thank-you {
+  display: block;
   animation: card-in 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
 
-#letter-open:checked ~ .letter-content .card-two { animation-delay: 0.16s; }
+.letter-stage[data-open="one"] .letter-content .card-two { animation-delay: 0.16s; }
 
 .hero-underline path {
   stroke-dasharray: 250;
@@ -389,11 +419,11 @@ body {
   opacity: 0;
 }
 
-#letter-open:checked ~ .letter-content .hero-underline path {
+.letter-stage[data-open="one"] .letter-content .hero-underline path {
   animation: underline-draw 0.8s ease-out 0.55s forwards;
 }
 
-#letter-open:checked ~ .letter-content .postmark {
+.letter-stage[data-open="one"] .letter-content .postmark {
   animation: postmark-in 0.7s ease-out 0.35s both;
 }
 
@@ -407,14 +437,16 @@ body {
     animation: none;
   }
 
-  #letter-open:checked ~ .letter-content .letterhead,
-  #letter-open:checked ~ .letter-content .letter-foot,
-  #letter-open:checked ~ .letter-content .letter-card,
-  #letter-open:checked ~ .letter-content .postmark {
+  .letter-stage.is-open .letter-content .letterhead,
+  .letter-stage.is-open .letter-content .letter-foot,
+  .letter-stage[data-open="one"] .letter-content .card-one,
+  .letter-stage[data-open="one"] .letter-content .card-two,
+  .letter-stage[data-open="two"] .letter-content .card-thank-you,
+  .letter-stage[data-open="one"] .letter-content .postmark {
     opacity: 1;
   }
 
-  #letter-open:checked ~ .letter-content .hero-underline path { stroke-dashoffset: 0; }
+  .letter-stage[data-open="one"] .letter-content .hero-underline path { stroke-dashoffset: 0; }
 }
 
 /* ---------- TEM THƯ — mép xước ke (perforation) ---------- */
